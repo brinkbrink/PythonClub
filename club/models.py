@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 
 class Meeting(models.Model):
     title=models.CharField(max_length=250)
+    # user=models.ForeignKey(User, on_delete=models.DO_NOTHING)
     date=models.DateField()
     time=models.TimeField()
     location=models.CharField(max_length=250)
