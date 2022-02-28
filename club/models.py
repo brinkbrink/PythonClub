@@ -23,12 +23,12 @@ class Meeting(models.Model):
         db_table='meeting'
 
 class MeetingMin(models.Model):
-    meetid=models.ForeignKey(Meeting, on_delete=models.CASCADE)
-    userid=models.ForeignKey(User, on_delete=models.CASCADE)
+    meetid=models.ForeignKey(Meeting, on_delete=models.DO_NOTHING)
+    userid=models.ForeignKey(User, on_delete=models.DO_NOTHING)
     minutes=models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return self.meetid
+        return self.minutes
 
     class Meta:
         db_table='meetingmin'
