@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from .models import Meeting, MeetingMin, Resource, Event
 import datetime
+from .forms import MeetingForm
 
 # Create your tests here.
 class MeetingTest(TestCase):
@@ -48,3 +49,15 @@ class MeetingMinTest(TestCase):
 
     def test_tablename(self):
         self.assertEqual(str(MeetingMin._meta.db_table), 'meetingmin')
+
+class NewMeetingForm(TestCase):
+    #valid form data
+    def test_meetingform(self):
+        data={
+            'title':'meeting', 
+            'date':'2022-03-02', 
+            'time':'10:00:00', 
+            'location':'clubhouse', 
+            'agenda':'none'}
+        form=MeetingForm(data)
+        self.assertTrue(form.is_valid)
