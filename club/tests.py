@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from .models import Meeting, MeetingMin, Resource, Event
 import datetime
 from .forms import MeetingForm
+from django.urls import reverse_lazy, reverse
 
 # Create your tests here.
 class MeetingTest(TestCase):
@@ -61,3 +62,14 @@ class NewMeetingForm(TestCase):
             'agenda':'none'}
         form=MeetingForm(data)
         self.assertTrue(form.is_valid)
+
+class New_Meeting_Authentication_Test(TestCase):
+    def setUp(self):
+        self.test_user=User.objects.create_user(username='testuser1', password='p@ssw0rd1')
+        self.meeting=Meeting.objects.create(title='Spring Break', date=datetime.date(2021,1,10),time=datetime.time(hour=20, minute=2, second=1),location='Club Python')
+        self.meetingmin=MeetingMin.objects.create(meetid=self.meeting, userid=self.test_user, minutes='Minutes of this meeting')
+
+
+    def test_redirect_if_not_logged_in(self):
+        response=self.client.get(reverse('newmeeting'))
+        self.assertRedirects(response, '/accounts/login/?next=/club/newmeeting/')
